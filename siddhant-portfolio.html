@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Siddhant Khairnar — AI/ML Engineer</title>
+<meta name="description" content="AI/ML Engineer at Brex. Previously Barclays, HCL Tech. Fine-tuning, fraud detection, RAG pipelines, production ML at scale." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-2: #111111;
+    --bg-3: #1a1a1a;
+    --bg-card: #141414;
+    --text: #f5f5f7;
+    --text-soft: #b0b0b4;
+    --text-mute: #6e6e73;
+    --accent: #2997ff;
+    --accent-2: #64b5f6;
+    --accent-glow: rgba(41, 151, 255, 0.15);
+    --green: #30d158;
+    --rule: #2d2d2d;
+    --rule-soft: #1f1f1f;
+    --display: 'Outfit', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Space Grotesk', -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text); font-family: var(--sans);
+    font-size: 16px; line-height: 1.55; overflow-x: hidden;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  body.modal-open { overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .nav-mark { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+  .nav-mark span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; font-size: 13px; color: var(--text-soft); }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-status { font-size: 12px; color: var(--text-mute); display: flex; align-items: center; gap: 8px; }
+  .nav-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 160px 40px 100px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; top: 30%; right: -10%;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none; filter: blur(80px);
+  }
+  .hero-tag {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 30px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+  .hero-name {
+    font-family: var(--display); font-weight: 200; font-size: clamp(60px, 12vw, 160px);
+    line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 40px;
+  }
+  .hero-name strong { font-weight: 700; }
+  .hero-name span { color: var(--accent); }
+  .hero-pitch {
+    font-family: var(--display); font-size: clamp(20px, 2.5vw, 32px);
+    font-weight: 300; line-height: 1.35; color: var(--text-soft);
+    max-width: 750px; margin-bottom: 50px;
+  }
+  .hero-pitch strong { color: var(--text); font-weight: 500; }
+  .hero-pitch em { color: var(--accent); font-style: normal; }
+  .hero-meta-row {
+    display: flex; gap: 40px; flex-wrap: wrap;
+    padding-top: 30px; border-top: 1px solid var(--rule);
+  }
+  .hero-meta-item { font-size: 13px; color: var(--text-mute); }
+  .hero-meta-item strong { display: block; color: var(--text); font-weight: 500; margin-top: 4px; font-size: 14px; }
+
+  /* STATS STRIP */
+  .stats-strip {
+    padding: 0 40px; position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  }
+  .strip-stat {
+    padding: 50px 30px; border-right: 1px solid var(--rule-soft);
+    text-align: center;
+  }
+  .strip-stat:last-child { border-right: none; }
+  .strip-num {
+    font-family: var(--display); font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700; line-height: 1; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .strip-label {
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-mute); margin-top: 12px; line-height: 1.4;
+  }
+
+  /* SECTION COMMON */
+  .section { padding: 120px 40px; position: relative; z-index: 2; }
+  .section-label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--text-mute); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: var(--display); font-size: clamp(40px, 6vw, 80px);
+    font-weight: 200; line-height: 1; letter-spacing: -0.03em; margin-bottom: 60px;
+  }
+  .section-title strong { font-weight: 700; }
+  .section-title span { color: var(--accent); }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .p-card {
+    background: var(--bg-card); border: 1px solid var(--rule-soft);
+    padding: 40px 36px; cursor: pointer; transition: all 0.4s ease;
+    display: flex; flex-direction: column; min-height: 380px;
+    position: relative; overflow: hidden; border-radius: 16px;
+  }
+  .p-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+  }
+  .p-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+  .p-card:hover::before { transform: scaleX(1); }
+  .p-card:hover .p-arrow { transform: translate(6px, -6px); color: var(--accent); }
+  .p-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+  .p-num { font-family: var(--mono); font-size: 11px; color: var(--text-mute); letter-spacing: 0.1em; }
+  .p-category { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border: 1px solid rgba(41,151,255,0.3); border-radius: 100px; }
+  .p-title {
+    font-family: var(--display); font-size: 36px; font-weight: 600;
+    line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 16px;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+  }
+  .p-title span { color: var(--accent); }
+  .p-arrow { font-size: 24px; transition: all 0.3s; color: var(--text-mute); flex-shrink: 0; }
+  .p-desc {
+    font-size: 15px; line-height: 1.6; color: var(--text-soft);
+    flex-grow: 1; margin-bottom: 24px;
+  }
+  .p-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .tag { font-family: var(--mono); font-size: 10px; padding: 4px 10px; border: 1px solid var(--rule); color: var(--text-mute); border-radius: 4px; }
+  .p-cta { margin-top: 20px; font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+
+  /* EXPERIENCE */
+  .exp-grid { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .exp-row {
+    display: grid; grid-template-columns: 200px 1fr; gap: 60px;
+    padding: 40px 0; border-bottom: 1px solid var(--rule-soft);
+    transition: background 0.3s;
+  }
+  .exp-row:hover { background: var(--bg-2); }
+  .exp-when { font-family: var(--mono); font-size: 12px; color: var(--text-mute); letter-spacing: 0.08em; text-transform: uppercase; padding-top: 6px; }
+  .exp-what h3 { font-family: var(--display); font-size: 24px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .exp-what .exp-role { font-size: 14px; color: var(--accent); margin-bottom: 12px; }
+  .exp-what p { font-size: 14px; line-height: 1.6; color: var(--text-soft); max-width: 600px; }
+  .exp-what p strong { color: var(--text); font-weight: 500; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .skill-card {
+    background: var(--bg-card); border: 1px solid var(--rule-soft);
+    padding: 36px 28px; border-radius: 16px;
+    transition: border-color 0.3s;
+  }
+  .skill-card:hover { border-color: var(--accent); }
+  .skill-card h3 {
+    font-family: var(--display); font-size: 22px; font-weight: 600;
+    margin-bottom: 16px; letter-spacing: -0.01em;
+  }
+  .skill-card h3 span { color: var(--accent); }
+  .skill-card .tag-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  /* FAQ */
+  details { border-bottom: 1px solid var(--rule); padding: 24px 0; }
+  details:first-of-type { border-top: 1px solid var(--rule); }
+  summary {
+    font-family: var(--display); font-size: 22px; font-weight: 500;
+    cursor: pointer; list-style: none; display: flex; justify-content: space-between;
+    align-items: center; gap: 20px; transition: color 0.2s; letter-spacing: -0.01em;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--accent); }
+  summary::after { content: '+'; font-weight: 300; font-size: 28px; color: var(--accent); transition: transform 0.3s; flex-shrink: 0; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin-top: 16px; font-size: 15px; line-height: 1.6; color: var(--text-soft); max-width: 700px; }
+  details p strong { color: var(--text); font-weight: 500; }
+
+  /* CONTACT */
+  .contact { background: var(--bg-2); border-top: 1px solid var(--rule); }
+  .contact-mega {
+    font-family: var(--display); font-size: clamp(48px, 10vw, 140px);
+    font-weight: 200; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 60px;
+  }
+  .contact-mega strong { font-weight: 700; }
+  .contact-mega span { color: var(--accent); }
+  .contact-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-top: 40px; border-top: 1px solid var(--rule); }
+  .contact-col h4 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-mute); margin-bottom: 16px; }
+  .contact-col a { display: block; padding: 4px 0; color: var(--text-soft); transition: color 0.2s; font-size: 15px; }
+  .contact-col a:hover { color: var(--accent); }
+  .contact-col .big-link { font-family: var(--display); font-size: 20px; font-weight: 500; color: var(--text); border-bottom: 1px solid var(--rule); padding-bottom: 12px; word-break: break-all; }
+  .contact-foot { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-mute); flex-wrap: wrap; gap: 16px; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal { position: fixed; top: 0; right: 0; bottom: 0; width: min(1100px, 100vw); background: var(--bg); z-index: 201; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s 0.5s; overflow-y: auto; visibility: hidden; border-left: 1px solid var(--rule); }
+  .modal.active { transform: translateX(0); visibility: visible; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s 0s; }
+  .modal-close { position: sticky; top: 20px; margin-left: auto; margin-right: 30px; margin-top: 20px; width: 44px; height: 44px; background: var(--bg-3); border: 1px solid var(--rule); color: var(--text); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.2s; z-index: 10; }
+  .modal-close:hover { background: var(--accent); border-color: var(--accent); transform: rotate(90deg); }
+  .modal-inner { padding: 0 60px 80px; max-width: 900px; margin: -44px auto 0; }
+  .m-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; padding-top: 40px; display: flex; align-items: center; gap: 12px; }
+  .m-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
+  .m-hook { font-family: var(--display); font-size: clamp(28px, 4vw, 48px); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 20px; }
+  .m-hook strong { font-weight: 600; }
+  .m-hook span { color: var(--accent); }
+  .m-project-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-mute); margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+  .m-section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-mute); margin: 60px 0 20px; display: flex; align-items: center; gap: 12px; }
+  .m-section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+  .m-h2 { font-family: var(--display); font-size: 30px; font-weight: 600; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 20px; }
+  .m-h2 span { color: var(--accent); }
+  .m-lede { font-family: var(--display); font-size: 20px; font-weight: 300; line-height: 1.5; color: var(--text-soft); margin-bottom: 20px; }
+  .m-lede strong { color: var(--text); font-weight: 500; }
+  .m-p { font-size: 15px; line-height: 1.7; color: var(--text-soft); margin-bottom: 16px; max-width: 680px; }
+  .m-p strong { color: var(--text); font-weight: 500; }
+  .m-p em { color: var(--accent); font-style: normal; }
+
+  .arch-block { background: var(--bg-3); border: 1px solid var(--rule); padding: 30px 24px; margin: 24px 0; font-family: var(--mono); font-size: 12px; line-height: 1.8; color: var(--text-soft); border-radius: 12px; overflow-x: auto; }
+  .arch-block .row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .arch-block .box { display: inline-block; padding: 5px 10px; background: var(--bg-card); border: 1px solid var(--rule); color: var(--text); font-weight: 500; white-space: nowrap; border-radius: 6px; }
+  .arch-block .box.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .arch-block .arrow { color: var(--accent); font-weight: 600; }
+  .arch-block .note { color: var(--text-mute); font-size: 11px; padding-left: 10px; }
+
+  .m-stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 24px 0; border-top: 1px solid var(--rule); }
+  .m-stack-row { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule-soft); font-family: var(--mono); font-size: 12px; }
+  .m-stack-row:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--rule-soft); }
+  .m-stack-row .label { color: var(--text-mute); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .m-stack-row .value { color: var(--text); font-weight: 500; margin-top: 4px; font-size: 13px; }
+
+  .m-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; margin: 24px 0; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
+  .result-cell { padding: 28px 20px; border-right: 1px solid var(--rule-soft); background: var(--bg-card); }
+  .result-cell:last-child { border-right: none; }
+  .result-num { font-family: var(--display); font-size: 36px; font-weight: 700; line-height: 1; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .result-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mute); margin-top: 10px; line-height: 1.4; }
+
+  .next-list { list-style: none; margin: 16px 0; }
+  .next-list li { padding: 12px 0 12px 28px; position: relative; border-bottom: 1px solid var(--rule-soft); font-size: 14px; line-height: 1.5; color: var(--text-soft); }
+  .next-list li::before { content: '\2192'; position: absolute; left: 0; color: var(--accent); }
+  .next-list li strong { color: var(--text); font-weight: 500; }
+
+  .m-cta { margin-top: 50px; padding-top: 30px; border-top: 1px solid var(--rule); display: flex; gap: 14px; flex-wrap: wrap; }
+  .m-cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; border-radius: 8px; transition: all 0.2s; }
+  .m-cta-btn.primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+  .m-cta-btn.primary:hover { background: #1a85e6; transform: translateY(-2px); }
+  .m-cta-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--rule); }
+  .m-cta-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    .strip-stat:nth-child(2) { border-right: none; }
+    .strip-stat:nth-child(1), .strip-stat:nth-child(2) { border-bottom: 1px solid var(--rule-soft); }
+    .exp-row { grid-template-columns: 1fr; gap: 8px; }
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+    .modal-inner { padding: 0 40px 60px; }
+    .m-stack-grid { grid-template-columns: 1fr; }
+    .m-stack-row:nth-child(even) { padding-left: 0; border-left: none; }
+  }
+  @media (max-width: 640px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .section, .hero { padding-left: 20px; padding-right: 20px; }
+    .contact { padding-left: 20px; padding-right: 20px; }
+    .stats-strip { grid-template-columns: 1fr; padding-left: 20px; padding-right: 20px; }
+    .strip-stat { border-right: none; border-bottom: 1px solid var(--rule-soft); }
+    .strip-stat:last-child { border-bottom: none; }
+    .hero-meta-row { flex-direction: column; gap: 16px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .modal-inner { padding: 0 20px 40px; }
+    .modal-close { margin-right: 20px; }
+  }
+
+  /* ANIMATION */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-name, .hero-pitch, .hero-meta-row { animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+  .hero-pitch { animation-delay: 0.15s; opacity: 0; }
+  .hero-meta-row { animation-delay: 0.3s; opacity: 0; }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#top" class="nav-mark">siddhant<span>.</span></a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-status">Open to AI/ML roles</div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-tag">AI/ML Engineer</div>
+  <h1 class="hero-name"><strong>Siddhant</strong><br>Khairnar<span>.</span></h1>
+  <p class="hero-pitch">
+    I build ML systems that catch fraud, cut costs, and run at <strong>sub-100ms latency</strong>.
+    Currently at Brex. Previously Barclays and HCL Tech.
+    Fine-tuned Longformer to <em>F1 88%</em>. Reduced fraud exposure by <em>35%</em>.
+    Looking for what's next.
+  </p>
+  <div class="hero-meta-row">
+    <div class="hero-meta-item">Based in<strong>Hoboken / NYC</strong></div>
+    <div class="hero-meta-item">Currently<strong>AI/ML Engineer @ Brex</strong></div>
+    <div class="hero-meta-item">Education<strong>MS Applied AI @ Stevens &middot; MBA @ IIM Jammu</strong></div>
+    <div class="hero-meta-item">Certs<strong>GCP Cloud Architect &middot; AWS ML Specialty</strong></div>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="strip-stat"><div class="strip-num">35%</div><div class="strip-label">Fraud exposure<br>reduced at Brex</div></div>
+  <div class="strip-stat"><div class="strip-num">F1 88%</div><div class="strip-label">Fine-tuned Longformer<br>from 72% baseline</div></div>
+  <div class="strip-stat"><div class="strip-num">&lt;100ms</div><div class="strip-label">p95 latency on<br>real-time scoring</div></div>
+  <div class="strip-stat"><div class="strip-num">15%</div><div class="strip-label">Cloud spend cut<br>via anomaly detection</div></div>
+</div>
+
+<section class="section" id="work">
+  <div class="section-label">Selected work</div>
+  <h2 class="section-title"><strong>Projects</strong> that <span>ship.</span></h2>
+
+  <div class="projects-grid">
+    <div class="p-card" data-modal="creativeiq">
+      <div class="p-card-top"><span class="p-num">/01</span><span class="p-category">Agentic AI &middot; AdTech</span></div>
+      <h3 class="p-title">Creative <span>IQ</span> <span class="p-arrow">&nearr;</span></h3>
+      <p class="p-desc">Ad teams spend $50M/year on creative and still can't match the volume their media buyers need. Creative IQ is the agentic pipeline that closes that gap, with brand compliance built in.</p>
+      <div class="p-tags"><span class="tag">Multi-agent</span><span class="tag">Sora / Runway</span><span class="tag">Terraform</span><span class="tag">EKS</span></div>
+      <span class="p-cta">Read case study &rarr;</span>
+    </div>
+
+    <div class="p-card" data-modal="authlookup">
+      <div class="p-card-top"><span class="p-num">/02</span><span class="p-category">GenAI &middot; Healthcare</span></div>
+      <h3 class="p-title">Auth<span>Lookup</span> <span class="p-arrow">&nearr;</span></h3>
+      <p class="p-desc">Clinic staff spend 45 minutes Ctrl+F'ing through PDFs for a single prior auth answer. Built on 90MB of real CMS data, AuthLookup runs 100% local, zero API cost, PHI-safe.</p>
+      <div class="p-tags"><span class="tag">Ollama</span><span class="tag">ChromaDB</span><span class="tag">FHIR R4</span><span class="tag">CMS data</span></div>
+      <span class="p-cta">Read case study &rarr;</span>
+    </div>
+
+    <div class="p-card" data-modal="freshflow">
+      <div class="p-card-top"><span class="p-num">/03</span><span class="p-category">Agentic AI &middot; CPG</span></div>
+      <h3 class="p-title">Fresh<span>Flow</span> <span class="p-arrow">&nearr;</span></h3>
+      <p class="p-desc">A third of the food we grow rots before anyone eats it, mostly because logistics runs on phone calls. FreshFlow is a multi-agent coordinator that forecasts, scores spoilage risk, and reroutes.</p>
+      <div class="p-tags"><span class="tag">Amazon Nova</span><span class="tag">Multi-agent</span><span class="tag">Prophet</span><span class="tag">Streamlit</span></div>
+      <span class="p-cta">Read case study &rarr;</span>
+    </div>
+
+    <div class="p-card" data-modal="cursorpm">
+      <div class="p-card-top"><span class="p-num">/04</span><span class="p-category">GenAI &middot; Product Intel</span></div>
+      <h3 class="p-title">Cursor for <span>PMs</span> <span class="p-arrow">&nearr;</span></h3>
+      <p class="p-desc">Every PM scrolls through 200 tickets, 40 Slack threads, and 12 call transcripts trying to find patterns. This tool remembers it all and cites evidence when it claims a trend.</p>
+      <div class="p-tags"><span class="tag">LangGraph</span><span class="tag">Mistral</span><span class="tag">pgvector</span><span class="tag">BERTopic</span></div>
+      <span class="p-cta">Read case study &rarr;</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experience" style="background: var(--bg-2);">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Where I've <span>built.</span></h2>
+
+  <div class="exp-grid">
+    <div class="exp-row">
+      <div class="exp-when">May 2025 &ndash; Present</div>
+      <div class="exp-what">
+        <h3>Brex</h3>
+        <div class="exp-role">AI/ML Engineer</div>
+        <p>Fraud detection on corporate spend and card transactions. Processing millions daily. <strong>Reduced fraud exposure 35%</strong>, improved risk response time 40%. Fine-tuned Longformer and FinBERT on 200K+ labeled transactions, <strong>F1: 72% &rarr; 88%</strong> using LoRA/PEFT while cutting compute 40%. Built real-time RAG pipelines for auditable investigation workflows.</p>
+      </div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-when">Jun 2022 &ndash; Aug 2024</div>
+      <div class="exp-what">
+        <h3>HCL Tech</h3>
+        <div class="exp-role">AI/ML Engineer</div>
+        <p>Anomaly detection and forecasting on Azure cloud cost data. <strong>Reduced spend 15%</strong>, improved prediction accuracy 22%. Built scalable pipelines processing terabyte-scale telemetry from 20+ global sites. Delivered real-time dashboards that <strong>cut incident response time 50%</strong> and drove 25% client growth.</p>
+      </div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-when">Jan 2021 &ndash; May 2022</div>
+      <div class="exp-what">
+        <h3>Barclays</h3>
+        <div class="exp-role">ML Engineer</div>
+        <p>Retail banking customer intelligence. Churn, cross-sell, credit risk. Tuned XGBoost and transformer models, <strong>ROC-AUC: 0.72 &rarr; 0.80</strong>. Productionized feature pipelines on Airflow + Spark. Containerized real-time scoring services on AKS, <strong>p95 latency under 100ms</strong> serving thousands of requests/sec. Built SHAP-driven explanation reports that cut false-positive fraud alerts 15-25%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="skills">
+  <div class="section-label">Stack</div>
+  <h2 class="section-title">What I <span>reach for.</span></h2>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <h3>ML <span>&amp;</span> DL</h3>
+      <div class="tag-wrap">
+        <span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">XGBoost</span>
+        <span class="tag">Hugging Face</span><span class="tag">LoRA / PEFT</span><span class="tag">FinBERT</span>
+        <span class="tag">Longformer</span><span class="tag">spaCy</span><span class="tag">SHAP</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>LLM <span>&amp;</span> Agents</h3>
+      <div class="tag-wrap">
+        <span class="tag">LangChain</span><span class="tag">LangGraph</span><span class="tag">LlamaIndex</span>
+        <span class="tag">FAISS</span><span class="tag">RAG</span><span class="tag">vLLM</span>
+        <span class="tag">Prompt engineering</span><span class="tag">Function calling</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Infra <span>&amp;</span> MLOps</h3>
+      <div class="tag-wrap">
+        <span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">GCP</span>
+        <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Airflow</span>
+        <span class="tag">MLflow</span><span class="tag">Prometheus</span><span class="tag">Grafana</span>
+        <span class="tag">Evidently</span><span class="tag">CI/CD</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title">Quick <span>answers.</span></h2>
+
+  <details open>
+    <summary>What are you looking for?</summary>
+    <p>An <strong>AI/ML engineering role</strong> where I work on production systems that move real business metrics. Fraud detection, financial ML, fine-tuning, RAG, agentic systems. I want to own the full pipeline from data to deployment.</p>
+  </details>
+  <details>
+    <summary>Remote, hybrid, or in-person?</summary>
+    <p>Based in Hoboken, so <strong>NYC in-person or hybrid is ideal</strong>. Open to remote for the right team. Willing to relocate for the right opportunity.</p>
+  </details>
+  <details>
+    <summary>What stack do you reach for?</summary>
+    <p><strong>Python / PyTorch / Hugging Face</strong> for models. <strong>LangChain + LangGraph</strong> for agents and RAG. <strong>AWS / Azure / GCP</strong> depending on the shop. <strong>Docker + Kubernetes + Airflow</strong> for orchestration. <strong>MLflow + Evidently + Grafana</strong> for monitoring. Certified on both <strong>GCP Cloud Architect</strong> and <strong>AWS ML Specialty</strong>.</p>
+  </details>
+  <details>
+    <summary>When can you start?</summary>
+    <p>Standard notice period. Happy to scope a <strong>paid trial project</strong> first so you can see how I work.</p>
+  </details>
+</section>
+
+<section class="section contact" id="contact">
+  <h2 class="contact-mega"><strong>Let's</strong> <span>build.</span></h2>
+  <div class="contact-grid">
+    <div class="contact-col">
+      <h4>Direct</h4>
+      <a href="mailto:siddhantkhairnar368@gmail.com" class="big-link">siddhantkhairnar368@gmail.com</a>
+    </div>
+    <div class="contact-col">
+      <h4>Code</h4>
+      <a href="https://github.com/sidelectron" target="_blank">GitHub</a>
+    </div>
+    <div class="contact-col">
+      <h4>Network</h4>
+      <a href="https://www.linkedin.com/in/siddhantkhairnar/" target="_blank">LinkedIn</a>
+    </div>
+    <div class="contact-col">
+      <h4>Certs</h4>
+      <a>GCP Cloud Architect</a>
+      <a>AWS ML Specialty</a>
+    </div>
+  </div>
+  <div class="contact-foot">
+    <div>Siddhant Khairnar &middot; Hoboken, NJ &middot; &copy; 2026</div>
+  </div>
+</section>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-overlay"></div>
+
+<div class="modal" id="modal-creativeiq">
+  <button class="modal-close">&times;</button>
+  <div class="modal-inner">
+    <div class="m-eyebrow">Case study &middot; 01</div>
+    <h1 class="m-hook">Ad teams spend <span>$50M/year</span> on creative and still can't keep up with the volume their media buyers need.</h1>
+    <div class="m-project-tag">Creative IQ &middot; Agentic AI &middot; AdTech</div>
+    <div class="m-section-label">The story</div>
+    <p class="m-lede">Media buyers can run 40 ad variations a day. Creative teams produce 4. The gap isn't staffing. It's architecture.</p>
+    <p class="m-p"><strong>Creative IQ is the orchestration layer.</strong> Brief goes in, performance-tuned variations come out. Every asset is tagged against the brand book and the KPI it's optimized for. Specialized agents handle concept generation, script writing, video synthesis, brand-compliance audit, and performance scoring.</p>
+    <div class="arch-block">
+      <div class="row"><span class="box">Brief + brand book</span><span class="arrow">&rarr;</span><span class="box accent">Concept agent</span></div>
+      <div class="row"><span class="note">&darr; N variations, parallelized</span></div>
+      <div class="row"><span class="box">Script</span><span class="arrow">&rarr;</span><span class="box">Shot plan</span><span class="arrow">&rarr;</span><span class="box">Video synthesis (Sora/Runway/Kling)</span></div>
+      <div class="row"><span class="box">Rendered assets</span><span class="arrow">&rarr;</span><span class="box accent">Brand-compliance ML</span><span class="arrow">&rarr;</span><span class="box">PASS / REWRITE</span></div>
+      <div class="row"><span class="box">Approved</span><span class="arrow">&rarr;</span><span class="box">Perf scoring</span><span class="arrow">&rarr;</span><span class="box accent">Feedback into next brief</span></div>
+    </div>
+    <div class="m-section-label">What's next</div>
+    <ul class="next-list">
+      <li><strong>Per-brand fine-tuning.</strong> LoRA adapters per client so brand rules are learned, not prompted.</li>
+      <li><strong>Platform-native rendering.</strong> Dedicated post-processing for Reels, TikTok, Shorts.</li>
+      <li><strong>Cost-aware model routing.</strong> Pick Sora vs Kling based on budget + creative importance.</li>
+    </ul>
+    <div class="m-cta">
+      <a href="https://github.com/sidelectron" target="_blank" class="m-cta-btn primary">View on GitHub &rarr;</a>
+      <a href="mailto:siddhantkhairnar368@gmail.com?subject=Creative%20IQ" class="m-cta-btn secondary">Talk about it &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-authlookup">
+  <button class="modal-close">&times;</button>
+  <div class="modal-inner">
+    <div class="m-eyebrow">Case study &middot; 02</div>
+    <h1 class="m-hook">Clinic staff spend <span>45 minutes</span> Ctrl+F'ing through PDFs to answer a single prior auth question.</h1>
+    <div class="m-project-tag">AuthLookup &middot; GenAI &middot; Healthcare</div>
+    <div class="m-section-label">The story</div>
+    <p class="m-lede">Prior authorization is a <strong>$35B/year</strong> administrative burden. The answers live in 90MB of CMS policy PDFs. The people who need them are on a phone with a patient.</p>
+    <p class="m-p"><strong>AuthLookup is the plain-English interface to CMS.</strong> 4,179 CPT codes parsed with real Medicare coverage requirements. Body-part-aware matching. Contrast-protocol logic. FHIR R4 compliant responses ready for EHR integration. Runs 100% locally on Ollama. Zero API costs. PHI never leaves the machine.</p>
+    <div class="arch-block">
+      <div class="row"><span class="box">CMS bulk data (90MB)</span><span class="arrow">&rarr;</span><span class="box">Parser</span><span class="arrow">&rarr;</span><span class="box">Structured policy DB</span></div>
+      <div class="row"><span class="note">&darr; 4,179 CPT codes, body-part tagged</span></div>
+      <div class="row"><span class="box">User query</span><span class="arrow">&rarr;</span><span class="box accent">Ollama (local)</span><span class="arrow">&rarr;</span><span class="box">Intent + CPT candidates</span></div>
+      <div class="row"><span class="box">CPT candidates</span><span class="arrow">&rarr;</span><span class="box accent">ChromaDB</span><span class="arrow">&rarr;</span><span class="box">Answer + FHIR R4</span></div>
+    </div>
+    <div class="m-results">
+      <div class="result-cell"><div class="result-num">45m &rarr; 30s</div><div class="result-label">Lookup time</div></div>
+      <div class="result-cell"><div class="result-num">4,179</div><div class="result-label">CPT codes parsed</div></div>
+      <div class="result-cell"><div class="result-num">$0</div><div class="result-label">Per-query cost</div></div>
+    </div>
+    <div class="m-section-label">What's next</div>
+    <ul class="next-list">
+      <li><strong>Commercial payers.</strong> UHC, Aetna, Cigna policy docs where the real volume is.</li>
+      <li><strong>EHR integration.</strong> Plugging into Epic/Cerner prior-auth flows end-to-end.</li>
+      <li><strong>GraphRAG upgrade.</strong> Neo4j to catch cross-references vector search misses.</li>
+    </ul>
+    <div class="m-cta">
+      <a href="https://github.com/sidelectron" target="_blank" class="m-cta-btn primary">View on GitHub &rarr;</a>
+      <a href="mailto:siddhantkhairnar368@gmail.com?subject=AuthLookup" class="m-cta-btn secondary">Talk about it &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-freshflow">
+  <button class="modal-close">&times;</button>
+  <div class="modal-inner">
+    <div class="m-eyebrow">Case study &middot; 03</div>
+    <h1 class="m-hook">A third of the food we grow <span>rots</span> before anyone eats it. Most of it rots because logistics runs on phone calls.</h1>
+    <div class="m-project-tag">FreshFlow &middot; Agentic AI &middot; CPG</div>
+    <div class="m-section-label">The story</div>
+    <p class="m-lede">Food distribution is both <strong>enormous</strong> and <strong>analog</strong>. Surplus strawberries? Call retailers until one says yes. Truck breaks down? Re-route by hand.</p>
+    <p class="m-p"><strong>FreshFlow is a multi-agent platform that runs those coordination loops.</strong> Three specialist agents: a forecaster, a spoilage risk scorer, and a reroute negotiator. They share state, not chat. Humans approve proposals before execution. Built with a team of five in 72 hours for the Amazon Nova Hackathon.</p>
+    <div class="arch-block">
+      <div class="row"><span class="box">Supplier feeds</span><span class="arrow">&rarr;</span><span class="box accent">Forecast agent</span><span class="arrow">&rarr;</span><span class="box">Demand by SKU</span></div>
+      <div class="row"><span class="box">Inventory</span><span class="arrow">&rarr;</span><span class="box accent">Spoilage agent</span><span class="arrow">&rarr;</span><span class="box">Risk scores</span></div>
+      <div class="row"><span class="box">Shared state</span><span class="arrow">&rarr;</span><span class="box accent">Reroute agent</span><span class="arrow">&rarr;</span><span class="box">Proposals</span><span class="arrow">&rarr;</span><span class="box">Human approval</span></div>
+    </div>
+    <div class="m-section-label">What's next</div>
+    <ul class="next-list">
+      <li><strong>Real supplier integrations.</strong> SAP, NetSuite, distributor TMS systems.</li>
+      <li><strong>Learned negotiator.</strong> Replace rules+LLM with a model that learns cost/risk/relationship trade-offs.</li>
+      <li><strong>Agent trace viewer.</strong> Purpose-built observability for multi-agent coordination.</li>
+    </ul>
+    <div class="m-cta">
+      <a href="https://github.com/sidelectron" target="_blank" class="m-cta-btn primary">View on GitHub &rarr;</a>
+      <a href="mailto:siddhantkhairnar368@gmail.com?subject=FreshFlow" class="m-cta-btn secondary">Talk about it &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-cursorpm">
+  <button class="modal-close">&times;</button>
+  <div class="modal-inner">
+    <div class="m-eyebrow">Case study &middot; 04</div>
+    <h1 class="m-hook">Every PM scrolls through 200 tickets, 40 Slack threads, and 12 transcripts trying to <span>remember</span> what users want.</h1>
+    <div class="m-project-tag">Cursor for PMs &middot; GenAI &middot; Product Intelligence</div>
+    <div class="m-section-label">The story</div>
+    <p class="m-lede">The feedback exists. The patterns exist. The problem is the human brain can't hold 300 tickets in working memory while writing a PRD.</p>
+    <p class="m-p"><strong>Cursor for PMs is the memory layer.</strong> Ingest every feedback channel into a persistent context graph. Ask "what are users saying about feature X?" and get cited evidence. V2 rebuilt with LangGraph: the LLM plans whether to do lookup, aggregation, clustering, or temporal comparison based on the question type.</p>
+    <div class="arch-block">
+      <div class="row"><span class="box">Tickets + Slack + reviews + calls</span><span class="arrow">&rarr;</span><span class="box">Ingestion</span><span class="arrow">&rarr;</span><span class="box">Feedback store</span></div>
+      <div class="row"><span class="note">&darr; pgvector + full-text + topic clusters</span></div>
+      <div class="row"><span class="box">PM question</span><span class="arrow">&rarr;</span><span class="box accent">Query planner (LangGraph)</span></div>
+      <div class="row"><span class="box">Plan</span><span class="arrow">&rarr;</span><span class="box">Retrieval</span><span class="arrow">&rarr;</span><span class="box">Aggregation</span><span class="arrow">&rarr;</span><span class="box accent">Cited synthesis</span></div>
+    </div>
+    <div class="m-section-label">What's next</div>
+    <ul class="next-list">
+      <li><strong>Insight to spec to code.</strong> Generate PRD drafts, then agent-executable specs.</li>
+      <li><strong>Per-customer embeddings.</strong> Fine-tuned models for product-specific jargon.</li>
+      <li><strong>Proactive alerts.</strong> "Onboarding complaints spiked 3x this week."</li>
+    </ul>
+    <div class="m-cta">
+      <a href="https://github.com/sidelectron" target="_blank" class="m-cta-btn primary">View on GitHub &rarr;</a>
+      <a href="mailto:siddhantkhairnar368@gmail.com?subject=Cursor%20for%20PMs" class="m-cta-btn secondary">Talk about it &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('modal-overlay');
+  const modals = document.querySelectorAll('.modal');
+  const triggers = document.querySelectorAll('[data-modal]');
+  const closes = document.querySelectorAll('.modal-close');
+
+  function openModal(id) {
+    const m = document.getElementById('modal-' + id);
+    if (!m) return;
+    overlay.classList.add('active');
+    m.classList.add('active');
+    document.body.classList.add('modal-open');
+    m.scrollTop = 0;
+  }
+  function closeAll() {
+    overlay.classList.remove('active');
+    modals.forEach(m => m.classList.remove('active'));
+    document.body.classList.remove('modal-open');
+  }
+  triggers.forEach(t => t.addEventListener('click', () => openModal(t.dataset.modal)));
+  closes.forEach(c => c.addEventListener('click', closeAll));
+  overlay.addEventListener('click', closeAll);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.p-card, .strip-stat, .exp-row, .skill-card, details').forEach(el => {
+    el.classList.add('reveal'); obs.observe(el);
+  });
+</script>
+</body>
+</html>
